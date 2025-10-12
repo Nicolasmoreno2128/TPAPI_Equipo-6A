@@ -304,11 +304,11 @@
     <Content Include="Scripts\jquery-3.7.0.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\WINFORMS\Tp-Winform-Equipo-6A\Proyecto Winform\dominio\dominio.csproj">
+    <ProjectReference Include="..\dominio\dominio.csproj">
       <Project>{10fea480-b92e-4a10-b493-d6e4f3b03c25}</Project>
       <Name>dominio</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\WINFORMS\Tp-Winform-Equipo-6A\Proyecto Winform\negocio\negocio.csproj">
+    <ProjectReference Include="..\negocio\negocio.csproj">
       <Project>{c53536ed-ae40-4453-b248-3de9a683a6fa}</Project>
       <Name>negocio</Name>
     </ProjectReference>

@@ -5,9 +5,9 @@ VisualStudioVersion = 17.14.36511.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiProducto", "ApiProducto\ApiProducto.csproj", "{621FEF33-14CF-46AC-A595-FE8B7E9A5D8C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dominio", "..\..\WINFORMS\Tp-Winform-Equipo-6A\Proyecto Winform\dominio\dominio.csproj", "{10FEA480-B92E-4A10-B493-D6E4F3B03C25}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dominio", "dominio\dominio.csproj", "{10FEA480-B92E-4A10-B493-D6E4F3B03C25}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "negocio", "..\..\WINFORMS\Tp-Winform-Equipo-6A\Proyecto Winform\negocio\negocio.csproj", "{C53536ED-AE40-4453-B248-3DE9A683A6FA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "negocio", "negocio\negocio.csproj", "{C53536ED-AE40-4453-B248-3DE9A683A6FA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

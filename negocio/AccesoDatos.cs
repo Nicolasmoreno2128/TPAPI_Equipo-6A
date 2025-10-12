@@ -1,6 +1,7 @@
 ﻿using dominio;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -17,20 +18,17 @@ namespace negocio
         {
             get { return lector; }
         }
-
         public AccesoDatos()
         {
-            //conexion = new SqlConnection("server=localhost\\SQLEXPRESS; database=CATALOGO_P3_DB; integrated security=true");
-            conexion = new SqlConnection("server=.\\localhost,1433; database=CATALOGO_P3_DB; integrated security=false; user=sa; password= Passw0rd2025!");
+            conexion = new SqlConnection("server=localhost\\SQLEXPRESS; database=PROMOS_DB; integrated security=true");
+            //conexion = new SqlConnection("server=.\\localhost,1433; database=PROMOS_DB; integrated security=false; user=sa; password= Passw0rd2025!");
             comando = new SqlCommand();
         }
-
         public void setearConsulta(string consulta)
         {
             comando.CommandType = System.Data.CommandType.Text;
             comando.CommandText = consulta;
         }
-
         public void ejecutarLectura()
         {
             comando.Connection = conexion;
@@ -41,11 +39,9 @@ namespace negocio
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
         }
-
         public void ejecutarAccion()
         {
             comando.Connection = conexion;
@@ -60,19 +56,15 @@ namespace negocio
                 throw ex;
             }
         }
-
         public void cerrarConexion()
         {
-            if(lector != null)
+            if (lector != null)
                 lector.Close();
-            conexion.Close();              
+            conexion.Close();
         }
-
         public void setearParametro(string nombre, object valor)
         {
             comando.Parameters.AddWithValue(nombre, valor);
         }
-
-
     }
 }
