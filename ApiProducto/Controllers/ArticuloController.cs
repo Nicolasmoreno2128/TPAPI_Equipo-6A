@@ -63,6 +63,8 @@ namespace ApiProducto.Controllers
         // DELETE: api/Articulo/5
         public void Delete(int id)
         {
+            ArticuloNegocio negocio = new ArticuloNegocio();
+            negocio.eliminarRegistro(id);
         }
     }
 }
