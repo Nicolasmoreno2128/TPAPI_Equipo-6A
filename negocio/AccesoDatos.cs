@@ -20,8 +20,8 @@ namespace negocio
         }
         public AccesoDatos()
         {
-            //conexion = new SqlConnection("server=localhost\\SQLEXPRESS; database=CATALOGO_P3_DB; integrated security=true");
-            conexion = new SqlConnection("server=.\\localhost,1433; database=CATALOGO_P3_DB; integrated security=false; user=sa; password= Passw0rd2025!");
+            conexion = new SqlConnection("server=localhost\\SQLEXPRESS; database=CATALOGO_P3_DB; integrated security=true");
+            //conexion = new SqlConnection("server=.\\localhost,1433; database=CATALOGO_P3_DB; integrated security=false; user=sa; password= Passw0rd2025!");
             comando = new SqlCommand();
         }
         public void setearConsulta(string consulta)
