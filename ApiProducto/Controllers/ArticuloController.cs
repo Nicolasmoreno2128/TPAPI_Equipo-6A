@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using dominio;
 using negocio;
+using ApiProducto.Models;
 
 namespace ApiProducto.Controllers
 {
@@ -27,8 +28,19 @@ namespace ApiProducto.Controllers
         }
 
         // POST: api/Articulo
-        public void Post([FromBody]string value)
+        public void Post([FromBody]ArticuloDto articulo)
         {
+            ArticuloNegocio negocio = new ArticuloNegocio();
+            Articulo nuevo = new Articulo();
+
+            nuevo.Codigo = articulo.Codigo;
+            nuevo.Nombre = articulo.Nombre;
+            nuevo.Descripcion = articulo.Descripcion;
+            nuevo.Precio = articulo.Precio;
+            nuevo.Categoria = new Categoria { Id = articulo.IdCategoria };
+            nuevo.Marca = new Marca { Id = articulo.IdMarca };
+
+            negocio.agregar(nuevo);
         }
 
         // PUT: api/Articulo/5
