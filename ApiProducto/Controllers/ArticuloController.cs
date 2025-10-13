@@ -8,6 +8,7 @@ using dominio;
 using negocio;
 using ApiProducto.Models;
 
+
 namespace ApiProducto.Controllers
 {
     public class ArticuloController : ApiController
@@ -28,9 +29,21 @@ namespace ApiProducto.Controllers
         }
 
         // POST: api/Articulo
-        public void Post([FromBody]ArticuloDto articulo)
+        public HttpResponseMessage Post([FromBody]ArticuloDto articulo)
         {
             ArticuloNegocio negocio = new ArticuloNegocio();
+            var marcaNegocio = new MarcaNegocio();
+            var categoriaNegocio = new CategoriaNegocio();
+
+            Marca marca = marcaNegocio.Listar().Find(x => x.Id == articulo.IdMarca);
+            Categoria categoria = categoriaNegocio.Listar().Find(x => x.Id == articulo.IdCategoria);
+
+            if (marca == null)
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "La marca no existe.");
+
+            if (categoria == null)
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "La categoría no existe.");
+
             Articulo nuevo = new Articulo();
 
             nuevo.Codigo = articulo.Codigo;
@@ -41,6 +54,8 @@ namespace ApiProducto.Controllers
             nuevo.Marca = new Marca { Id = articulo.IdMarca };
 
             negocio.agregar(nuevo);
+
+            return Request.CreateResponse(HttpStatusCode.OK, "Artículo agregado correctamente.");
         }
 
         // PUT: api/Articulo/5
