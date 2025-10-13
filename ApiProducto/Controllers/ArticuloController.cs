@@ -14,18 +14,44 @@ namespace ApiProducto.Controllers
     public class ArticuloController : ApiController
     {
         // GET: api/Articulo
-        public IEnumerable<Articulo> Get()
+        public HttpResponseMessage Get()
         {
-            ArticuloNegocio negocio = new ArticuloNegocio();
-            return negocio.listar();
+            try
+            {
+                ArticuloNegocio negocio = new ArticuloNegocio();
+                var lista = negocio.listar();
+
+                if (lista == null || lista.Count == 0)
+                    return Request.CreateResponse(HttpStatusCode.NoContent, "No hay artículos cargados.");
+
+                return Request.CreateResponse(HttpStatusCode.OK, lista);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Error al obtener los artículos: " + ex.Message);
+            }
         }
 
         // GET: api/Articulo/5
-        public Articulo Get(int id)
+        public HttpResponseMessage Get(int id)
         {
-            ArticuloNegocio negocio = new ArticuloNegocio();
-            List<Articulo> lista = negocio.listar();
-            return lista.Find(x=> x.Id == id);
+            try
+            {
+                if (id <= 0)
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "El ID debe ser mayor a cero.");
+
+                ArticuloNegocio negocio = new ArticuloNegocio();
+                var articulo = negocio.listar().Find(x => x.Id == id);
+
+                if (articulo == null)
+                    return Request.CreateResponse(HttpStatusCode.NotFound, $"No se encontró un artículo con ID {id}.");
+
+                return Request.CreateResponse(HttpStatusCode.OK, articulo);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Error al obtener el artículo: " + ex.Message);
+            }
         }
 
         // POST: api/Articulo
@@ -76,10 +102,26 @@ namespace ApiProducto.Controllers
         }
 
         // DELETE: api/Articulo/5
-        public void Delete(int id)
+        public HttpResponseMessage Delete(int id)
         {
-            ArticuloNegocio negocio = new ArticuloNegocio();
-            negocio.eliminarRegistro(id);
+            try
+            {
+                if (id <= 0)
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "El ID debe ser mayor a cero.");
+
+                ArticuloNegocio negocio = new ArticuloNegocio();
+                var existente = negocio.listar().Find(x => x.Id == id);
+
+                if (existente == null)
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "No se encontró el artículo a eliminar.");
+
+                negocio.eliminarRegistro(id);
+                return Request.CreateResponse(HttpStatusCode.OK, "Artículo eliminado correctamente.");
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Error al eliminar el artículo: " + ex.Message);
+            }
         }
     }
 }
