@@ -85,20 +85,48 @@ namespace ApiProducto.Controllers
         }
 
         // PUT: api/Articulo/5
-        public void Put(int id, [FromBody]ArticuloDto articulo)
+        public HttpResponseMessage Put(int id, [FromBody]ArticuloDto articulo)
         {
-            ArticuloNegocio negocio = new ArticuloNegocio();
-            Articulo modificar = new Articulo();
+            try
+            {
+                if (id <= 0)
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "El ID debe ser mayor a cero.");
 
-            modificar.Codigo = articulo.Codigo;
-            modificar.Nombre = articulo.Nombre;
-            modificar.Descripcion = articulo.Descripcion;
-            modificar.Precio = articulo.Precio;
-            modificar.Categoria = new Categoria { Id = articulo.IdCategoria };
-            modificar.Marca = new Marca { Id = articulo.IdMarca };
-            modificar.Id = id;
+                ArticuloNegocio negocio = new ArticuloNegocio();
+                var existente = negocio.listar().Find(x => x.Id == id);
+                if (existente == null)
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "No se encontró el artículo a modificar.");
 
-            negocio.Modificar(modificar);
+                var marcaNegocio = new MarcaNegocio();
+                var categoriaNegocio = new CategoriaNegocio();
+
+                Marca marca = marcaNegocio.Listar().Find(x => x.Id == articulo.IdMarca);
+                Categoria categoria = categoriaNegocio.Listar().Find(x => x.Id == articulo.IdCategoria);
+
+                if (marca == null)
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "La marca no existe.");
+
+                if (categoria == null)
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "La categoría no existe.");
+
+                Articulo modificar = new Articulo();
+
+
+                modificar.Codigo = articulo.Codigo;
+                modificar.Nombre = articulo.Nombre;
+                modificar.Descripcion = articulo.Descripcion;
+                modificar.Precio = articulo.Precio;
+                modificar.Categoria = new Categoria { Id = articulo.IdCategoria };
+                modificar.Marca = new Marca { Id = articulo.IdMarca };
+                modificar.Id = id;
+
+                negocio.Modificar(modificar);
+                return Request.CreateResponse(HttpStatusCode.OK, "Articulo modificado correctamente.");
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, "Ocurrió un error inesperado.");
+            }
         }
 
         // DELETE: api/Articulo/5
