@@ -57,31 +57,44 @@ namespace ApiProducto.Controllers
         // POST: api/Articulo
         public HttpResponseMessage Post([FromBody]ArticuloDto articulo)
         {
-            ArticuloNegocio negocio = new ArticuloNegocio();
-            var marcaNegocio = new MarcaNegocio();
-            var categoriaNegocio = new CategoriaNegocio();
 
-            Marca marca = marcaNegocio.Listar().Find(x => x.Id == articulo.IdMarca);
-            Categoria categoria = categoriaNegocio.Listar().Find(x => x.Id == articulo.IdCategoria);
+            try
+            {
+                ArticuloNegocio negocio = new ArticuloNegocio();
+                var marcaNegocio = new MarcaNegocio();
+                var categoriaNegocio = new CategoriaNegocio();
 
-            if (marca == null)
-                return Request.CreateResponse(HttpStatusCode.BadRequest, "La marca no existe.");
+                Marca marca = marcaNegocio.Listar().Find(x => x.Id == articulo.IdMarca);
+                Categoria categoria = categoriaNegocio.Listar().Find(x => x.Id == articulo.IdCategoria);
 
-            if (categoria == null)
-                return Request.CreateResponse(HttpStatusCode.BadRequest, "La categoría no existe.");
+                if (marca == null)
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "La marca no existe.");
 
-            Articulo nuevo = new Articulo();
+                if (categoria == null)
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "La categoría no existe.");
 
-            nuevo.Codigo = articulo.Codigo;
-            nuevo.Nombre = articulo.Nombre;
-            nuevo.Descripcion = articulo.Descripcion;
-            nuevo.Precio = articulo.Precio;
-            nuevo.Categoria = new Categoria { Id = articulo.IdCategoria };
-            nuevo.Marca = new Marca { Id = articulo.IdMarca };
+                Articulo nuevo = new Articulo();
 
-            negocio.agregar(nuevo);
+                nuevo.Codigo = articulo.Codigo;
+                nuevo.Nombre = articulo.Nombre;
+                nuevo.Descripcion = articulo.Descripcion;
+                nuevo.Precio = articulo.Precio;
+                nuevo.Categoria = new Categoria { Id = articulo.IdCategoria };
+                nuevo.Marca = new Marca { Id = articulo.IdMarca };
 
-            return Request.CreateResponse(HttpStatusCode.OK, "Artículo agregado correctamente.");
+                negocio.agregar(nuevo);
+
+                return Request.CreateResponse(HttpStatusCode.OK, "Artículo agregado correctamente.");
+
+            }
+            catch (Exception )
+            {
+
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, "Ocurrió un error inesperado.");
+
+
+            }
+
         }
 
         // PUT: api/Articulo/5
